@@ -20,61 +20,26 @@
 <body>
   
 <ons-navigator id="Navispl">
-  <ons-splitter>
-    <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
 
-      <ons-page id="index">
-
-        <ons-list>
-          <img src="bg/login.png" alt="" width="80" height="80" style="margin-left: 50px;">
-          <h4 style="margin-left: 50px;" id="profile" tappable>My Profile</h4>
-          <ons-list-item id="home" tappable>
-            Home
-          </ons-list-item>
-          <ons-list-item id="search" tappable>
-            Search
-          </ons-list-item>
-          <ons-list-item id="favolite" tappable>
-            Favolite
-          </ons-list-item>
-          <ons-list-item id="signout" tappable>
-            Log Out
-          </ons-list-item>
-        </ons-list>
-      </ons-page>
-    </ons-splitter-side>
-    <ons-splitter-content id="content" page="tabbar.html"></ons-splitter-content>
-  </ons-splitter>
+<ons-tabbar swipeable id="appTabbar" position="auto">
+    <ons-tab page="view/home.html" label="home" icon="md-home, material:md-home" active>
+    </ons-tab>
+    <ons-tab page="view/search.html" label="search" icon="md-search" active-icon="md-search">
+    </ons-tab>
+    <ons-tab page="view/favorite.html" label="favorite" icon="md-favorite" active-icon="md-favorite">
+    </ons-tab>
+    <ons-tab page="view/profile.html" label="profile" icon="md-account" active-icon="md-account">
+    </ons-tab>
+</ons-tabbar>
 </ons-navigator>
-
-<ons-template id="tabbar.html">
-  <ons-page>
-      <ons-toolbar>
-          <div class="center" id="logo">
-asddasd
-          </div>
-      </ons-toolbar>
-
-      <ons-tabbar swipeable id="appTabbar" position="auto">
-          <ons-tab page="view/home.html" label="home" icon="md-home, material:md-home" active>
-          </ons-tab>
-          <ons-tab page="view/search.html" label="search" icon="md-search" active-icon="md-search">
-          </ons-tab>
-          <ons-tab page="view/favorite.html" label="favorite" icon="md-favorite" active-icon="md-favorite">
-          </ons-tab>
-          <ons-tab page="view/profile.html" label="profile" icon="md-account" active-icon="md-account">
-          </ons-tab>
-      </ons-tabbar>
-  </ons-page>
-</ons-template>
 
   <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-  <script src="js/index.js"></script>
   <script src="js/firebase.js"></script>
   <script src="js/firebasedata.js"></script>
+  <script src="js/index.js"></script>
 </body>
 
 </html>
