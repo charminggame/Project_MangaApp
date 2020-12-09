@@ -47,6 +47,11 @@ document.addEventListener('init', function (event) {
       document.querySelector('#myNavigator').pushPage('view/detail.html');
       detail(1)
     };
+
+    page.querySelector('#a2').onclick = function () {
+      document.querySelector('#myNavigator').pushPage('view/detail.html');
+      detail(2)
+    };
   } else if (page.id === 'favorite') {
     favorite()
   }
@@ -320,4 +325,9 @@ function favorite() {
         });
       })
     });
+}
+
+function editSelects(event) {
+  var re = document.getElementById('choose-sel').value;
+  console.log(re);
 }

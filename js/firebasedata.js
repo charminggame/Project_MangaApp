@@ -1,4 +1,5 @@
 function detail(N) {
+    var Text = "one shot"
     var C = 0;
     var db = firebase.firestore();
     db.collection("manga").get().then((querySnapshot) => {
@@ -19,6 +20,17 @@ function detail(N) {
                     `;
                     if(Number(N) === Number(number)){
                       $("#D").append(card);
+                    }if(number.toLowerCase().indexOf(Text.toLowerCase()) == -1){
+                        var chapter = `<option value="${doc.data().chapter}">ตอนที่ ${doc.data().chapter}</option>`
+                        $("#select").append(chapter);
+                        console.log(chapter);
+                        console.log(1)
+                    }
+                    else if(Number(N) === Number(number)){
+                        var chapter = `<option value="${doc.data().chapter}">ตอนที่ ${doc.data().chapter}</option>`
+                        $("#select").append(chapter);
+                        console.log(chapter);
+                        console.log(2)
                     }
             });
         })
