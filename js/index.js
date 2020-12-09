@@ -43,46 +43,63 @@ document.addEventListener('init', function (event) {
     };
   }
   else if (page.id === 'home') {
-
-  }else if (page.id === 'favorite') {
+    page.querySelector('#a1').onclick = function () {
+      document.querySelector('#myNavigator').pushPage('view/detail.html');
+      detail(1)
+    };
+  } else if (page.id === 'favorite') {
     favorite()
-}
+  }
 
 })
 
 window.fn = {};
 
 window.fn.toggleMenu = function () {
-    document.getElementById('Navispl').right.toggle();
+  document.getElementById('Navispl').right.toggle();
 };
 
 window.fn.loadView = function (index) {
-    document.getElementById('appTabbar').setActiveTab(index);
-    document.getElementById('menu').close();
+  document.getElementById('appTabbar').setActiveTab(index);
+  document.getElementById('menu').close();
 };
 
 window.fn.loadLink = function (url) {
-    window.open(url, '_blank');
+  window.open(url, '_blank');
 };
 
 window.fn.pushPage = function (page, anim) {
-    if (anim) {
-        document.getElementById('Navispl').pushPage(page.id, { data: { title: page.title }, animation: anim });
-    } else {
-        document.getElementById('Navispl').pushPage(page.id, { data: { title: page.title } });
-    }
+  if (anim) {
+    document.getElementById('Navispl').pushPage(page.id, { data: { title: page.title }, animation: anim });
+  } else {
+    document.getElementById('Navispl').pushPage(page.id, { data: { title: page.title } });
+  }
 };
 
 function logo() {
   var db = firebase.firestore();
   db.collection("logo").get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-              var card = ` <img src="${doc.data().link}" width="100%">`;
-                  $("#logo").append(card);
-              
-          });
-      })
+    querySnapshot.forEach((doc) => {
+      var card = ` <img src="${doc.data().link}" width="100%">`;
+      $("#logo").append(card);
+
+    });
+  })
 }
+
+$(function () {
+  var db = firebase.firestore();
+  db.collection("manga").get().then((querySnapshot) => {
+
+    querySnapshot.forEach((doc) => {
+      var c = `${doc.data().N}`
+      var card = ` <img src="${doc.data().Poster}" width="380" height="480" id="a${doc.data().N}">
+              <div style="text-align: center;"><B>${doc.data().Name}</B> </div>
+              `;
+      $("#a" + c).append(card);
+    });
+  })
+})
 
 
 function Searchmanga() {
@@ -154,10 +171,11 @@ function buttonsearch(N) {
                 `;
       if (Gn.toLowerCase().indexOf(N) != -1) {
         $("#Research").append(card);
-      }else{
-        if(N === 0){
-        $("#Research").append(card);
-      }}
+      } else {
+        if (N === 0) {
+          $("#Research").append(card);
+        }
+      }
     });
   })
 }
@@ -194,60 +212,61 @@ function buttonsearch2(N) {
                 `;
       if (Gn.toLowerCase().indexOf(N) != -1) {
         $("#Research").append(card);
-      }else{
-        if(N === 0){
-        $("#Research").append(card);
-      }}
+      } else {
+        if (N === 0) {
+          $("#Research").append(card);
+        }
+      }
     });
   })
 }
 
 function Addremove(NManga) {
   firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-          var db = firebase.firestore();
-          var Up = db.collection("Profile").doc(user.email);
-          db.collection("Profile").get().then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                  var Pemail = `${doc.data().Email}`
-                  var email = user.email;
-                  if (email === Pemail) {
-                      var c = 0;
-                      for (let i = 0; i < 16; i++) {
-                          if (Number(NManga) !== Number(`${doc.data().Favorite[i]}`)) {
-                              Up.update({
-                                  Favorite: firebase.firestore.FieldValue.arrayUnion(NManga)
-                              }).then(function () {
-                                  console.log("Document successfully updated!");
-                              })
-                                  .catch(function (error) {
-                                      console.error("Error updating document: ", error);
-                                  });
-                          } else if (Number(NMovie) === Number(`${doc.data().Favorite[i]}`)) {
-                              c = 1;
-                          }
-                      }
-                      if (c === 1) {
-                          Up.update({
-                              Favorite: firebase.firestore.FieldValue.arrayRemove(NManga)
-                          }).then(function () {
-                              console.log("Document successfully Remove!");
-                          })
-                              .catch(function (error) {
-                                  console.error("Error updating document: ", error);
-                              });
-                      }
-
-                  }
-
+    if (user) {
+      var db = firebase.firestore();
+      var Up = db.collection("Profile").doc(user.email);
+      db.collection("Profile").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          var Pemail = `${doc.data().Email}`
+          var email = user.email;
+          if (email === Pemail) {
+            var c = 0;
+            for (let i = 0; i < 16; i++) {
+              if (Number(NManga) !== Number(`${doc.data().Favorite[i]}`)) {
+                Up.update({
+                  Favorite: firebase.firestore.FieldValue.arrayUnion(NManga)
+                }).then(function () {
+                  console.log("Document successfully updated!");
+                })
+                  .catch(function (error) {
+                    console.error("Error updating document: ", error);
+                  });
+              } else if (Number(NMovie) === Number(`${doc.data().Favorite[i]}`)) {
+                c = 1;
               }
-              )
+            }
+            if (c === 1) {
+              Up.update({
+                Favorite: firebase.firestore.FieldValue.arrayRemove(NManga)
+              }).then(function () {
+                console.log("Document successfully Remove!");
+              })
+                .catch(function (error) {
+                  console.error("Error updating document: ", error);
+                });
+            }
 
-          }).then(function () {
-              $("#datafavorite").empty();
-              favorite()
-          })
-      }
+          }
+
+        }
+        )
+
+      }).then(function () {
+        $("#datafavorite").empty();
+        favorite()
+      })
+    }
   })
 }
 
@@ -255,36 +274,34 @@ function favorite() {
   var id = [];
   var db = firebase.firestore();
   db.collection("Profile").get().then((querySnepshot) => {
-      querySnepshot.forEach((doc) => {
-          var Pemail = `${doc.data().Email}`
-          firebase.auth().onAuthStateChanged(function (user) {
-              if (user) {
-                  var email = user.email;
-                  if (email === Pemail) {
-                      for (let i = 0; i < 16; i++) {
-                          id[Number(i)] = `${doc.data().Favorite[i]}`
-                      }
-                  }
-              }
-          })
+    querySnepshot.forEach((doc) => {
+      var Pemail = `${doc.data().Email}`
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          var email = user.email;
+          if (email === Pemail) {
+            for (let i = 0; i < 16; i++) {
+              id[Number(i)] = `${doc.data().Favorite[i]}`
+            }
+          }
+        }
       })
+    })
   })
-      .then((connect) => {
-          db.collection("manga").get().then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                  for(let i = 0; i < 16; i++) {
-                      if(id[i] === 'undefined'){
-                          
-                      }else if(Number(id[i]) === Number(`${doc.data().N}`)){
-                          var Detail = `                
+    .then((connect) => {
+      db.collection("manga").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          for (let i = 0; i < 16; i++) {
+            if (id[i] === 'undefined') {
+
+            } else if (Number(id[i]) === Number(`${doc.data().N}`)) {
+              var Detail = `
                       <ons-row class='box_F'>
                           <ons-col class="gg">
                               <img src="${doc.data().Poster}" width="130" height="190">
                               <ons-row class="margin">
                                   <ons-col>
-                                      <h4> <b>${doc.data().Name}</h4><small>Action | ${doc.data().chapter}</small>
-                                      <br>
-                                      <ons-icon icon="star" icon="star" icon="star" style="color: #FFA500"></ons-icon> 7.1/10
+                                      <h4> <b>${doc.data().Name}</h4><small>${doc.data().tag} | chapter : ${doc.data().chapter}</small>
                                   </ons-col>
           
                                   <ons-col>
@@ -295,11 +312,12 @@ function favorite() {
                               </ons-row>
                           </ons-col>
                       </ons-row>
-                      <br>`
-                          $("#datafavorite").append(Detail);
-                      }
-                  }
-              });
-          })
-      });
+                      <br>
+                      </div>`
+              $("#datafavorite").append(Detail);
+            }
+          }
+        });
+      })
+    });
 }
