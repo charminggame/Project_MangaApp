@@ -34,3 +34,12 @@ body {
     line-height: 1.5;
     background-color: #0f0f0f;
 }
+.select{
+    margin-top: 10px;
+    height: 40px;
+    width: 130px;
+    };
+.button{
+    margin-top: -10px;
+    height: 20px;
+};
