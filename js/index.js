@@ -56,7 +56,9 @@ document.addEventListener('init', function (event) {
 
   if (page.id === 'index') {
     page.querySelector('#profile').onclick = function () {
+      $("#D").empty();
       document.querySelector('#Navispl').pushPage('view/profile.html');
+      Profile();
     };
 
     page.querySelector('#home').onclick = function () {
@@ -440,12 +442,12 @@ $(function () {
                               </div>
                               <div class="border"></div>
                               <div class="item">
-                                <span>17</span>
-                                Follow
+                                <span>${doc.data().Favorite.length}</span>
+                                Favorite
                               </div>
                               <div class="border"></div>
                               <div class="item">
-                                <span>8</span>
+                                <span>3</span>
                                 category
                               </div>
                             </div>
@@ -475,3 +477,67 @@ $(function () {
     )
   })
 })
+
+function Profile() {
+  var db = firebase.firestore();
+  db.collection("Profile").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      var Pemail = `${doc.data().Email}`
+      var pf = `<div class="profile-card">
+                          <div class="card-header">
+                            <div class="pic">
+                              <img src="pic.png" alt="">
+                            </div>
+                            <div class="name">${doc.data().Name}</div>
+                            <div class="desc">Developer & Designer</div>
+                            <div class="sm">
+                              <a href="#" class="fab fa-facebook-f"></a>
+                              <a href="#" class="fab fa-twitter"></a>
+                              <a href="#" class="fab fa-github"></a>
+                              <a href="#" class="fab fa-youtube"></a>
+                            </div>
+                            <a class="contact-btn" onclick="signout()">Sight out</a>
+                          </div>
+                          <div class="card-footer">
+                            <div class="numbers">
+                              <div class="item">
+                                <span>50</span>
+                                Book
+                              </div>
+                              <div class="border"></div>
+                              <div class="item">
+                                <span>${doc.data().Favorite.length}</span>
+                                Favorite
+                              </div>
+                              <div class="border"></div>
+                              <div class="item">
+                                <span>3</span>
+                                category
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+          `;
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          var email = user.email;
+          if (email === Pemail) {
+            $("#D").append(pf);
+          } else if (email.toLowerCase().indexOf("gmail") != -1) {
+            var pfg = `
+                          <img class="img" src="`+ user.photoUR + `" width="100" height="100">
+                          <br>
+                          <div>
+                              <B>`+ user.displayName + `</B>
+                          </div>
+          `;
+            // $("#D").append(pfg);
+          }
+        }
+      });
+
+    }
+    )
+  })
+}

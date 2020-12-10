@@ -3,18 +3,12 @@ var db = firebase.firestore();
 
 
 function detail(Name, N) {
-
-
     console.log(Name);
-    var Text = "one shot"
     var c = 0;
-
     db.collection("manga").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             var DBname = `${doc.data().Name}`
             var DBnumber = `${doc.data().N}`
-            var DBchapter = `${doc.data().chapter}`
-            var c1 = 0;
             var card = `<div class="containner">
                         <div class="container_r1" >
                         <div class="row ">
@@ -26,6 +20,9 @@ function detail(Name, N) {
                             <div class="col-7 order-12"  style="border: 2px solid rgb(231, 228, 228);">
                                 <h5 style=" margin-top: 15px; font-family: 'Itim', cursive;">
                                     เรื่องย่อ " ${doc.data().Detail}"
+                                </h5>
+                                <h5 style=" margin-top: 15px; font-family: 'Itim', cursive;">
+                                    Artist " ${doc.data().Artist}"
                                 </h5>
                                
             
@@ -69,7 +66,6 @@ function detail(Name, N) {
                     `;
             if (String(Name) === String(DBname)) {
                 c++;
-                c1++;
                 if (c === 1) {
                     for (var i = 1; i <= c; i++) {
                         console.log(doc.data().chapter);
@@ -112,15 +108,12 @@ function PuP(DBname) {
 
 
 function detail2(Name, N) {
-    var Text = "one shot"
     var c = 0;
     var db = firebase.firestore();
     db.collection("manga").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             var DBname = `${doc.data().Name}`
             var DBnumber = `${doc.data().N}`
-            var DBchapter = `${doc.data().chapter}`
-            var c1 = 0;
             var card = `<div class="containner">
                         <div class="container_r1" >
                         <div class="row ">
@@ -132,6 +125,9 @@ function detail2(Name, N) {
                             <div class="col-7 order-12"  style="border: 2px solid rgb(231, 228, 228);">
                                 <h5 style=" margin-top: 15px; font-family: 'Itim', cursive;">
                                     เรื่องย่อ " ${doc.data().Detail}"
+                                </h5>
+                                <h5 style=" margin-top: 15px; font-family: 'Itim', cursive;">
+                                    Artist " ${doc.data().Artist}"
                                 </h5>
                                
             
@@ -179,7 +175,6 @@ function detail2(Name, N) {
                     `;
             if (String(Name) === String(DBname)) {
                 c++;
-                c1++;
                 // if (c === 1) {
                 //     for (var i = 1; i <= c; i++) {
                 //         $("#select" + i).append(chapter);
