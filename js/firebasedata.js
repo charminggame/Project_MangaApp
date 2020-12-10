@@ -45,7 +45,7 @@ function detail(Name, N) {
             var card3 = ` </div>
                     <div class="container_r3" style="font-family: 'Itim', cursive;">
                         <div class="lastbox1">
-                        <button type="button" class="btn btn-light">
+                        <button type="button" class="btn btn-light" onclick="mail()">
                         <div class="row">
                           &nbsp&nbsp
                         <ons-icon icon="md-favorite" size="40px"></ons-icon>
@@ -154,7 +154,7 @@ function detail2(Name, N) {
             var card3 = ` </div>
                     <div class="container_r3" style="font-family: 'Itim', cursive;">
                         <div class="lastbox1">
-                        <button type="button" class="btn btn-light">
+                        <button type="button" class="btn btn-light" onclick="mail()">
                         <div class="row">
                           &nbsp&nbsp
                         <ons-icon icon="md-favorite" size="40px"></ons-icon>
