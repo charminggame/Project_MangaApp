@@ -1,3 +1,4 @@
+var nu = "";
 $(function () {
 
   firebase.auth().onAuthStateChanged(function (user) {
@@ -16,15 +17,39 @@ $(function () {
     }
   });
 
-  $("#signout").click(function () {
-    firebase.auth().signOut()
-      .then(function () {
-        // Sign-out successful.
-      }).catch(function (error) {
-        // An error happened.
-      });
-  });
 })
+
+function signout() {
+  firebase.auth().signOut()
+    .then(function () {
+      // Sign-out successful.
+    }).catch(function (error) {
+      // An error happened.
+    });
+};
+
+function getdetail(N) {
+  console.log(N)
+  if (Number(N) === 1) {
+    detail("GuraAmi", 1)
+    console.log(1)
+  } else if (Number(N) === 2) {
+    detail2("Koi wa Iikara Nemuritai!", 2)
+    console.log(2)
+  } else if (Number(N) === 3) {
+    detail("Kinakochan", 3)
+    console.log(3)
+  } else if (Number(N) === 4) {
+    detail("14 sai no onna shachou neet o hirou", 4)
+    console.log(4)
+  } else if (Number(N) === 5) {
+    detail("SPAWN", 5)
+    console.log(5)
+  }
+  document.querySelector('#SNvise').pushPage('view/detail.html');
+}
+
+
 
 document.addEventListener('init', function (event) {
   var page = event.target;
@@ -45,17 +70,18 @@ document.addEventListener('init', function (event) {
   else if (page.id === 'home') {
     page.querySelector('#a1').onclick = function () {
       document.querySelector('#myNavigator').pushPage('view/detail.html');
-      detail(1)
+      detail("GuraAmi", 1)
     };
 
     page.querySelector('#a2').onclick = function () {
       document.querySelector('#myNavigator').pushPage('view/detail.html');
-      detail(2)
+      detail("Koi wa Iikara Nemuritai!", 2)
     };
+
+
   } else if (page.id === 'favorite') {
     favorite()
-  }
-
+  } 
 })
 
 window.fn = {};
@@ -106,6 +132,20 @@ $(function () {
   })
 })
 
+$(function () {
+  var db = firebase.firestore();
+  db.collection("manga").get().then((querySnapshot) => {
+
+    querySnapshot.forEach((doc) => {
+      var c = `${doc.data().N}`
+      var card = ` <img src="${doc.data().Poster}" width="380" height="480" id="a${doc.data().N}">
+              <div style="text-align: center;"><B>${doc.data().Name}</B> </div>
+              `;
+      $("#b" + c).append(card);
+    });
+  })
+})
+
 
 function Searchmanga() {
   const search = document.getElementById('searchText').value;
@@ -115,34 +155,41 @@ function Searchmanga() {
   db.collection("manga").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       const title = doc.data().Name;
-      const rptitlemovie = title.replace(/ /g, "");
+      const rptitlemanga = title.replace(/ /g, "");
       var card = `
-<div class="card mb-3" style="max-width: 540px;">
-<div class="row no-gutters">
-    <div class="col">
-    <div>
-      <img src="${doc.data().Poster}" class="card-img">
-    </div>
-    </div>
-    <div class="col">
-      <div class="card-body">
-        <h5 class="card-title">${doc.data().Name}</h5>
+      <div class="card mb-3" style="max-width: 540px;">
+      <div class="row no-gutters" id="s${doc.data().N}">
+      <div class="col">
+      <div>
+        <img src="${doc.data().Poster}" class="card-img" width="120px">
       </div>
-    </div>
-    <div class="col">
-      <div class="card-body">
-        <ons-icon icon="md-favorite" size="40px"></ons-icon>
       </div>
-    </div>
-  </div>
-</div>
+      <div class="col">
+      <div class="row no-gutters">
+        <div class="card-body">
+          <h5 class="card-title">ชื่อเรื่อง : ${doc.data().Name}</h5>
+        <h5 class="card-title">ตอนที่ : ${doc.data().chapter}</h5>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card-body">
+        <button type="button" class="btn btn-outline-dark" id="s${doc.data().N}" style="width: 100px;" onclick="getdetail(${doc.data().N})">Detail</button>
+        <ons-icon icon="md-favorite" size="40px" onclick="Addremove(${doc.data().N})"></ons-icon>
+        </div>
+      </div>
+      </div>
+      </div>
+      </div>
                 `;
-      if (rptitlemovie.toLowerCase().indexOf(rpsearchText.toLowerCase()) != -1) {
-        $("#Research").append(card);
+      if (rptitlemanga.toLowerCase().indexOf(rpsearchText.toLowerCase()) != -1) {
+        if (`${doc.data().N}` !== nu) {
+          $("#Research").append(card);
+        }
       }
     });
   })
 }
+
 
 function buttonsearch(N) {
   var db = firebase.firestore();
@@ -155,7 +202,7 @@ function buttonsearch(N) {
 <div class="row no-gutters" id="s${doc.data().N}">
 <div class="col">
 <div>
-  <img src="${doc.data().Poster}" class="card-img">
+  <img src="${doc.data().Poster}" class="card-img" width="120px">
 </div>
 </div>
 <div class="col">
@@ -167,6 +214,7 @@ function buttonsearch(N) {
 </div>
 <div class="col">
   <div class="card-body">
+  <button type="button" class="btn btn-outline-dark" id="s${doc.data().N}" style="width: 100px;" onclick="getdetail(${doc.data().N})">Detail</button>
   <ons-icon icon="md-favorite" size="40px" onclick="Addremove(${doc.data().N})"></ons-icon>
   </div>
 </div>
@@ -175,11 +223,17 @@ function buttonsearch(N) {
 </div>
                 `;
       if (Gn.toLowerCase().indexOf(N) != -1) {
-        $("#Research").append(card);
-      } else {
-        if (N === 0) {
+        if (`${doc.data().N}` !== nu) {
           $("#Research").append(card);
         }
+
+      } else {
+        if (N === 0) {
+          if (`${doc.data().N}` !== nu) {
+            $("#Research").append(card);
+          }
+        }
+
       }
     });
   })
@@ -196,7 +250,7 @@ function buttonsearch2(N) {
       <div class="row no-gutters" id="s${doc.data().N}">
       <div class="col">
       <div>
-        <img src="${doc.data().Poster}" class="card-img">
+        <img src="${doc.data().Poster}" class="card-img" width="120px">
       </div>
       </div>
       <div class="col">
@@ -208,6 +262,7 @@ function buttonsearch2(N) {
     </div>
       <div class="col">
         <div class="card-body">
+        <button type="button" class="btn btn-outline-dark" id="s${doc.data().N}" style="width: 100px;" onclick="getdetail(${doc.data().N})">Detail</button>
         <ons-icon icon="md-favorite" size="40px" onclick="Addremove(${doc.data().N})"></ons-icon>
         </div>
       </div>
@@ -216,11 +271,17 @@ function buttonsearch2(N) {
       </div>
                 `;
       if (Gn.toLowerCase().indexOf(N) != -1) {
-        $("#Research").append(card);
-      } else {
-        if (N === 0) {
+        if (`${doc.data().N}` !== nu) {
           $("#Research").append(card);
         }
+
+      } else {
+        if (N === 0) {
+          if (`${doc.data().N}` !== nu) {
+            $("#Research").append(card);
+          }
+        }
+
       }
     });
   })
@@ -247,7 +308,7 @@ function Addremove(NManga) {
                   .catch(function (error) {
                     console.error("Error updating document: ", error);
                   });
-              } else if (Number(NMovie) === Number(`${doc.data().Favorite[i]}`)) {
+              } else if (Number(NManga) === Number(`${doc.data().Favorite[i]}`)) {
                 c = 1;
               }
             }
@@ -331,3 +392,38 @@ function editSelects(event) {
   var re = document.getElementById('choose-sel').value;
   console.log(re);
 }
+
+$(function () {
+  var db = firebase.firestore();
+  db.collection("Profile").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      var Pemail = `${doc.data().Email}`
+      var pf = `
+          <img class="img" src="${doc.data().ImgPro}" width="100" height="100">
+          <br>
+                          <div>
+                              <B>${doc.data().Name}</B>
+                          </div>
+          `;
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          var email = user.email;
+          if (email === Pemail) {
+            $("#D").append(pf);
+          } else if (email.toLowerCase().indexOf("gmail") != -1) {
+            var pfg = `
+                          <img class="img" src="`+ user.photoUR + `" width="100" height="100">
+                          <br>
+                          <div>
+                              <B>`+ user.displayName + `</B>
+                          </div>
+          `;
+            $("#D").append(pfg);
+          }
+        }
+      });
+
+    }
+    )
+  })
+})
