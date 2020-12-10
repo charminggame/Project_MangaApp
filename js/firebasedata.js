@@ -31,7 +31,7 @@ function detail(Name, N) {
                         </div>
                     </div>
             
-                    <div class="container_r2" style=" border: 2px solid rgb(255, 165, 48); font-family: 'Itim', cursive;">
+                    <div class="container_r2" style=" border: 2px solid rgb(255, 255, 255); font-family: 'Itim', cursive;">
                         <i class='fas fa-calendar-alt' style='font-size:26px; margin-left: 10px;'> Chapters</i>
 
                     <div class="ep" style="margin-left: 10px; margin-top: 5px; border: 2px solid rgb(255, 255, 255);" onclick="PuP('${DBname}')" >
@@ -85,7 +85,7 @@ function detail(Name, N) {
                     $("#D3").append(card3);
                 }
             }
-        
+
 
         });
     })
@@ -94,17 +94,17 @@ function detail(Name, N) {
 function PuP(DBname) {
     db.collection("manga").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            if(DBname == doc.data().Name){
+            if (DBname == doc.data().Name) {
                 console.log(DBname);
                 read(DBname);
-    document.querySelector('#D1Nvise').pushPage('view/Read.html');
+                document.querySelector('#D1Nvise').pushPage('view/Read.html');
             }
 
         });
     })
-    
-  }
-  
+
+}
+
 
 
 function detail2(Name, N) {
@@ -136,7 +136,7 @@ function detail2(Name, N) {
                         </div>
                     </div>
             
-                    <div class="container_r2" style=" border: 2px solid rgb(255, 165, 48); font-family: 'Itim', cursive;">
+                    <div class="container_r2" style=" border: 2px solid rgb(255, 255, 255); font-family: 'Itim', cursive;">
                         <i class='fas fa-calendar-alt' style='font-size:26px; margin-left: 10px;'> Chapters</i>
 
                     <div class="ep" style="margin-left: 10px; margin-top: 5px; border: 2px solid rgb(255, 255, 255);" onclick="PuP('${DBname}')" >
@@ -148,7 +148,15 @@ function detail2(Name, N) {
                         <p>
                             ตอนที่ 2 <br>
                         </p>
-                    </div>`
+                        <p>
+                        ตอนที่ 3 <br>
+                    </p>
+                    <p>
+                    ตอนที่ 4 <br>
+                </p>
+                    
+                        </div>
+                    `
 
 
             var card3 = ` </div>
@@ -189,7 +197,7 @@ function detail2(Name, N) {
                     $("#D3").append(card3);
                 }
             }
-        
+
 
         });
     })
