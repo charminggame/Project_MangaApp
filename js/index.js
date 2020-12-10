@@ -164,7 +164,7 @@ $(function () {
     querySnapshot.forEach((doc) => {
       var c = `${doc.data().N}`
       var card = ` <img src="${doc.data().Poster}" width="380" height="480" id="a${doc.data().N}">
-              <div style="text-align: center;"><B>${doc.data().Name}</B> </div>
+              <div><B>${doc.data().Name}</B> </div>
               `;
       $("#b" + c).append(card);
     });
