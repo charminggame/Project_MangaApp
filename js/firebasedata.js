@@ -25,7 +25,7 @@ function detail(Name, N) {
                             </div>
                             <div class="col-7 order-12"  style="border: 2px solid rgb(231, 228, 228);">
                                 <h5 style=" margin-top: 15px; font-family: 'Itim', cursive;">
-                                    ${doc.data().Detail}
+                                    เรื่องย่อ " ${doc.data().Detail}"
                                 </h5>
                                
             
@@ -131,7 +131,7 @@ function detail2(Name, N) {
                             </div>
                             <div class="col-7 order-12"  style="border: 2px solid rgb(231, 228, 228);">
                                 <h5 style=" margin-top: 15px; font-family: 'Itim', cursive;">
-                                    ${doc.data().Detail}
+                                    เรื่องย่อ " ${doc.data().Detail}"
                                 </h5>
                                
             
@@ -180,15 +180,15 @@ function detail2(Name, N) {
             if (String(Name) === String(DBname)) {
                 c++;
                 c1++;
-                if (c === 1) {
-                    for (var i = 1; i <= c; i++) {
-                        $("#select" + i).append(chapter);
-                    }
-                } else {
-                    for (var i = 2; i <= c; i++) {
-                        $("#select" + i).append(chapter);
-                    }
-                }
+                // if (c === 1) {
+                //     for (var i = 1; i <= c; i++) {
+                //         $("#select" + i).append(chapter);
+                //     }
+                // } else {
+                //     for (var i = 2; i <= c; i++) {
+                //         $("#select" + i).append(chapter);
+                //     }
+                // }
                 if (Number(N) === Number(DBnumber)) {
                     $("#D1").append(card);
                     $("#D3").append(card3);

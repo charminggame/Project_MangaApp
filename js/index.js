@@ -75,9 +75,28 @@ document.addEventListener('init', function (event) {
 
     page.querySelector('#a2').onclick = function () {
       document.querySelector('#myNavigator').pushPage('view/detail.html');
-      detail("Koi wa Iikara Nemuritai!", 2)
+      detail2("Koi wa Iikara Nemuritai!", 2)
     };
 
+    page.querySelector('#a3').onclick = function () {
+      document.querySelector('#myNavigator').pushPage('view/detail.html');
+      detail("Kinakochan", 3)
+    };
+
+    page.querySelector('#b2').onclick = function () {
+      document.querySelector('#myNavigator').pushPage('view/detail.html');
+      detail2("Koi wa Iikara Nemuritai!", 2)
+    };
+
+    page.querySelector('#b1').onclick = function () {
+      document.querySelector('#myNavigator').pushPage('view/detail.html');
+      detail("GuraAmi", 1)
+    };
+
+    page.querySelector('#b4').onclick = function () {
+      document.querySelector('#myNavigator').pushPage('view/detail.html');
+      detail("14 sai no onna shachou neet o hirou", 4)
+    };
 
   } else if (page.id === 'favorite') {
     favorite()
@@ -398,12 +417,41 @@ $(function () {
   db.collection("Profile").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       var Pemail = `${doc.data().Email}`
-      var pf = `
-          <img class="img" src="${doc.data().ImgPro}" width="100" height="100">
-          <br>
-                          <div>
-                              <B>${doc.data().Name}</B>
+      var pf = `<div class="profile-card">
+                          <div class="card-header">
+                            <div class="pic">
+                              <img src="pic.png" alt="">
+                            </div>
+                            <div class="name">${doc.data().Name}</div>
+                            <div class="desc">Developer & Designer</div>
+                            <div class="sm">
+                              <a href="#" class="fab fa-facebook-f"></a>
+                              <a href="#" class="fab fa-twitter"></a>
+                              <a href="#" class="fab fa-github"></a>
+                              <a href="#" class="fab fa-youtube"></a>
+                            </div>
+                            <a href="#" class="contact-btn" onclick="signout()">Sight out</a>
                           </div>
+                          <div class="card-footer">
+                            <div class="numbers">
+                              <div class="item">
+                                <span>50</span>
+                                Book
+                              </div>
+                              <div class="border"></div>
+                              <div class="item">
+                                <span>17</span>
+                                Follow
+                              </div>
+                              <div class="border"></div>
+                              <div class="item">
+                                <span>8</span>
+                                category
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
           `;
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -418,7 +466,7 @@ $(function () {
                               <B>`+ user.displayName + `</B>
                           </div>
           `;
-            $("#D").append(pfg);
+            // $("#D").append(pfg);
           }
         }
       });
