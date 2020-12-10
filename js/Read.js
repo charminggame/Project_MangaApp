@@ -1,14 +1,20 @@
-new Vue({
-  el: '#app',
-  template: '#main',
-  data() {
-    return {
-      carouselIndex: 0,
-      items: {
-        BLUE: '#085078',
-        DARK: '#373B44',
-        ORANGE: '#D38312'
-      },
-    };
-  }
-});
+function read(Name) {
+  console.log(Name)
+  var db = firebase.firestore();
+  db.collection("manga").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      if(Name == doc.data().Name){
+        for (let index = 0; index < doc.data().img.length; index++) {
+          var card = `
+        <img src="${doc.data().img[index]}" alt="" width="375px">`;
+            $("#R").append(card);
+
+          
+        }
+        
+      }
+      
+
+    });
+  })
+}
