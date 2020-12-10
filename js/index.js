@@ -49,6 +49,10 @@ function getdetail(N) {
   document.querySelector('#SNvise').pushPage('view/detail.html');
 }
 
+function mail(){
+  document.querySelector('#D1Nvise').pushPage('view/chat.html');
+}
+
 
 
 document.addEventListener('init', function (event) {
